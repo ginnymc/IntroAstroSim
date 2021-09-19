@@ -4,7 +4,6 @@
 Created on Fri Mar 15 12:01:57 2019
 
 @author: gmcswain
-
 M. Virginia McSwain
 Lehigh University
 
