@@ -131,7 +131,7 @@ def settzone():
     
 
 def updatemoons():
-    global ttemp, io_ball, eu_ball, ga_ball, ca_ball, framewidth, frameheight
+    global ttemp, io_ball, eu_ball, ga_ball, ca_ball, framewidth, frameheight, colored
     sky.bind("<Button-1>", mooncoords)
     tmoon = ts.utc(ttemp)
     jupdiam = 139822.
@@ -145,20 +145,27 @@ def updatemoons():
     juprad = 13
     xscale = juprad*2
     zscale = xscale
+    if colored.get() == False:
+        io_fill = eu_fill = ga_fill = ca_fill = "white"
+    elif colored.get() == True:
+        io_fill = "#FBF608"  # Gold
+        eu_fill = "#FF5412"  # Red-orange
+        ga_fill = "#FF66E9"  # Hot pink
+        ca_fill = "#01DEE6"  # Teal
     io_ball = sky.create_oval(ju_x + io_x*xscale - moonrad, ju_z + io_z*zscale - moonrad, \
                               ju_x + io_x*xscale + moonrad, ju_z + io_z*zscale + moonrad, \
-                              fill="white", tags=("Io", str('% 5.2f' % io_x) ) )
+                              fill=io_fill, tags=("Io", str('% 5.2f' % io_x) ) )
     eu_ball = sky.create_oval(ju_x + eu_x*xscale - moonrad, ju_z + eu_z*zscale - moonrad, \
                               ju_x + eu_x*xscale + moonrad, ju_z + eu_z*zscale + moonrad, \
-                              fill="white", tags=("Europa", str('% 5.2f' % eu_x) ) )
+                              fill=eu_fill, tags=("Europa", str('% 5.2f' % eu_x) ) )
     ga_ball = sky.create_oval(ju_x + ga_x*xscale - moonrad, ju_z + ga_z*zscale - moonrad, \
                               ju_x + ga_x*xscale + moonrad, ju_z + ga_z*zscale + moonrad, \
-                              fill="white", tags=("Ganymede", str('% 4.2f' % ga_x) ) )
+                              fill=ga_fill, tags=("Ganymede", str('% 4.2f' % ga_x) ) )
     ca_ball = sky.create_oval(ju_x + ca_x*xscale - moonrad, ju_z + ca_z*zscale - moonrad, \
                               ju_x + ca_x*xscale + moonrad, ju_z + ca_z*zscale + moonrad, \
-                              fill="white", tags=("Callisto", str('% 4.2f' % ca_x) ))
+                              fill=ca_fill, tags=("Callisto", str('% 4.2f' % ca_x) ))
     ju_ball = sky.create_oval(ju_x - juprad, ju_z -juprad, ju_x + juprad, ju_z + juprad, \
-                              fill="gray", tags=("Jupiter", "0" ) )
+                              fill="white", tags=("Jupiter", "0" ) )
     if io_y < 0: sky.tag_raise(io_ball)
     if eu_y < 0: sky.tag_raise(eu_ball)
     if ga_y < 0: sky.tag_raise(ga_ball)
@@ -196,6 +203,7 @@ window = tk.Tk()
 window.title("Moons of Jupiter Simulation")
 framewidth = 800
 frameheight = 600
+colored = tk.BooleanVar(False)
 window.geometry(str(framewidth)+'x'+str(frameheight))
 
 # create moon animation frame
@@ -313,7 +321,13 @@ quit_button = tk.Button(timeframe, text="Quit Simulation")
 quit_button.place(relwidth=0.7, relx=0.15, rely=row_pos)
 quit_button['command'] = window.destroy
 
+# menubar with extra features
+menubar = tk.Menu(window)
+featuremenu = tk.Menu(menubar, tearoff=0)
+featuremenu.add_checkbutton(label="ID by color", variable=colored, onvalue=True, offvalue=False, command=updatemoons)
+menubar.add_cascade(label="Features", menu=featuremenu)
 
+window.config(menu=menubar)
 window.mainloop()
 
 
