@@ -172,7 +172,7 @@ def updatemoons():
                               ju_x + ca_x*xscale + moonrad, ju_z + ca_z*zscale + moonrad, \
                               fill="white", tags=("Callisto", str('% 4.2f' % ca_x) ))
     ju_ball = sky.create_oval(ju_x - juprad, ju_z -juprad, ju_x + juprad, ju_z + juprad, \
-                              fill="white", tags=("Jupiter", "0" ) )
+                              fill="gray", tags=("Jupiter", "0" ) )
     updatecolors()
     if io_y < 0: sky.tag_raise(io_ball)
     if eu_y < 0: sky.tag_raise(eu_ball)
