@@ -130,6 +130,20 @@ def settzone():
     poslabel.configure(text="")
     
 
+def updatecolors():
+    global io_ball, eu_ball, ga_ball, ca_ball, colored
+    if colored.get() == False:
+        io_fill = eu_fill = ga_fill = ca_fill = "white"
+    elif colored.get() == True:
+        io_fill = "#FBF608"  # Gold
+        eu_fill = "#FF5412"  # Red-orange
+        ga_fill = "#FF66E9"  # Hot pink
+        ca_fill = "#01DEE6"  # Teal
+    sky.itemconfig(io_ball, fill=io_fill)
+    sky.itemconfig(eu_ball, fill=eu_fill)
+    sky.itemconfig(ga_ball, fill=ga_fill)
+    sky.itemconfig(ca_ball, fill=ca_fill)
+
 def updatemoons():
     global ttemp, io_ball, eu_ball, ga_ball, ca_ball, framewidth, frameheight
     sky.bind("<Button-1>", mooncoords)
@@ -159,6 +173,7 @@ def updatemoons():
                               fill="white", tags=("Callisto", str('% 4.2f' % ca_x) ))
     ju_ball = sky.create_oval(ju_x - juprad, ju_z -juprad, ju_x + juprad, ju_z + juprad, \
                               fill="gray", tags=("Jupiter", "0" ) )
+    updatecolors()
     if io_y < 0: sky.tag_raise(io_ball)
     if eu_y < 0: sky.tag_raise(eu_ball)
     if ga_y < 0: sky.tag_raise(ga_ball)
@@ -196,6 +211,7 @@ window = tk.Tk()
 window.title("Moons of Jupiter Simulation")
 framewidth = 800
 frameheight = 600
+colored = tk.BooleanVar(False)
 window.geometry(str(framewidth)+'x'+str(frameheight))
 
 # create moon animation frame
@@ -313,7 +329,13 @@ quit_button = tk.Button(timeframe, text="Quit Simulation")
 quit_button.place(relwidth=0.7, relx=0.15, rely=row_pos)
 quit_button['command'] = window.destroy
 
+# menubar with extra features
+menubar = tk.Menu(window)
+featuremenu = tk.Menu(menubar, tearoff=0)
+featuremenu.add_checkbutton(label="ID by color", variable=colored, onvalue=True, offvalue=False, command=updatecolors)
+menubar.add_cascade(label="Features", menu=featuremenu)
 
+window.config(menu=menubar)
 window.mainloop()
 
 
