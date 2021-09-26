@@ -130,8 +130,22 @@ def settzone():
     poslabel.configure(text="")
     
 
+def updatecolors():
+    global io_ball, eu_ball, ga_ball, ca_ball, colored
+    if colored.get() == False:
+        io_fill = eu_fill = ga_fill = ca_fill = "white"
+    elif colored.get() == True:
+        io_fill = "#FBF608"  # Gold
+        eu_fill = "#FF5412"  # Red-orange
+        ga_fill = "#FF66E9"  # Hot pink
+        ca_fill = "#01DEE6"  # Teal
+    sky.itemconfig(io_ball, fill=io_fill)
+    sky.itemconfig(eu_ball, fill=eu_fill)
+    sky.itemconfig(ga_ball, fill=ga_fill)
+    sky.itemconfig(ca_ball, fill=ca_fill)
+
 def updatemoons():
-    global ttemp, io_ball, eu_ball, ga_ball, ca_ball, framewidth, frameheight, colored
+    global ttemp, io_ball, eu_ball, ga_ball, ca_ball, framewidth, frameheight
     sky.bind("<Button-1>", mooncoords)
     tmoon = ts.utc(ttemp)
     jupdiam = 139822.
@@ -145,27 +159,21 @@ def updatemoons():
     juprad = 13
     xscale = juprad*2
     zscale = xscale
-    if colored.get() == False:
-        io_fill = eu_fill = ga_fill = ca_fill = "white"
-    elif colored.get() == True:
-        io_fill = "#FBF608"  # Gold
-        eu_fill = "#FF5412"  # Red-orange
-        ga_fill = "#FF66E9"  # Hot pink
-        ca_fill = "#01DEE6"  # Teal
     io_ball = sky.create_oval(ju_x + io_x*xscale - moonrad, ju_z + io_z*zscale - moonrad, \
                               ju_x + io_x*xscale + moonrad, ju_z + io_z*zscale + moonrad, \
-                              fill=io_fill, tags=("Io", str('% 5.2f' % io_x) ) )
+                              fill="white", tags=("Io", str('% 5.2f' % io_x) ) )
     eu_ball = sky.create_oval(ju_x + eu_x*xscale - moonrad, ju_z + eu_z*zscale - moonrad, \
                               ju_x + eu_x*xscale + moonrad, ju_z + eu_z*zscale + moonrad, \
-                              fill=eu_fill, tags=("Europa", str('% 5.2f' % eu_x) ) )
+                              fill="white", tags=("Europa", str('% 5.2f' % eu_x) ) )
     ga_ball = sky.create_oval(ju_x + ga_x*xscale - moonrad, ju_z + ga_z*zscale - moonrad, \
                               ju_x + ga_x*xscale + moonrad, ju_z + ga_z*zscale + moonrad, \
-                              fill=ga_fill, tags=("Ganymede", str('% 4.2f' % ga_x) ) )
+                              fill="white", tags=("Ganymede", str('% 4.2f' % ga_x) ) )
     ca_ball = sky.create_oval(ju_x + ca_x*xscale - moonrad, ju_z + ca_z*zscale - moonrad, \
                               ju_x + ca_x*xscale + moonrad, ju_z + ca_z*zscale + moonrad, \
-                              fill=ca_fill, tags=("Callisto", str('% 4.2f' % ca_x) ))
+                              fill="white", tags=("Callisto", str('% 4.2f' % ca_x) ))
     ju_ball = sky.create_oval(ju_x - juprad, ju_z -juprad, ju_x + juprad, ju_z + juprad, \
                               fill="white", tags=("Jupiter", "0" ) )
+    updatecolors()
     if io_y < 0: sky.tag_raise(io_ball)
     if eu_y < 0: sky.tag_raise(eu_ball)
     if ga_y < 0: sky.tag_raise(ga_ball)
@@ -324,7 +332,7 @@ quit_button['command'] = window.destroy
 # menubar with extra features
 menubar = tk.Menu(window)
 featuremenu = tk.Menu(menubar, tearoff=0)
-featuremenu.add_checkbutton(label="ID by color", variable=colored, onvalue=True, offvalue=False, command=updatemoons)
+featuremenu.add_checkbutton(label="ID by color", variable=colored, onvalue=True, offvalue=False, command=updatecolors)
 menubar.add_cascade(label="Features", menu=featuremenu)
 
 window.config(menu=menubar)
