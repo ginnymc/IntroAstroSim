@@ -11,3 +11,5 @@ Currently includes:
 - Rotation of the Sun: plots images of the Sun from NASA's Solar Dynamics Observatory that can be used to measure the Sun's rotation period.
 - Galaxy Rotation Curves: plots the co-added rotation curves from Dehghani et al. (2020, A&A, 643, A161) for users to measure the approximate dark matter and stellar masses of several galaxies.
 - dehghani+2020.tsv: Data from Dehghani et al. (2020, A&A, 643, A161) to be used with the Galaxy Rotation Curves tool.
+- Protoplanetary Disks with ALMA: uses images from DSHARP project (Andrews et al. 2018, ApJL, 869, L41; https://bulk.cv.nrao.edu/almadata/lp/DSHARP/) to allow users to measure the angular size and orientation of protoplanetary disks. 
+- Cepheid Variables with TESS: plots TESS lightcurves of several Cepheid variable stars for users to measure the pulsation periods.
